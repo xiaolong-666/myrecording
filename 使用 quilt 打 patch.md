@@ -42,6 +42,21 @@ dpkg-source: info: applying paths.patch
 devops@devops-PC:~/cve/temp$ ls
 scapy-2.4.0  scapy_2.4.0-2.debian.tar.xz  scapy_2.4.0-2.dsc  scapy_2.4.0.orig.tar.gz
 ```
+注意：自动解压的目录，里面已经成功应用了所有`patch`，如果用`apt source`下载的源码来初始化仓库，还需要进行以下两步，移除应用的`patch`
+```bash
+devops@devops-PC:~/cve/temp/scapy-2.4.0$ quilt pop -a
+Removing patch debian/patches/paths.patch
+Restoring scapy/config.py
+Restoring scapy/utils6.py
+
+Removing patch debian/patches/setup.py.patch
+Restoring setup.py
+
+No patches applied
+devops@devops-PC:~/cve/temp/scapy-2.4.0$ rm -rf .pc/
+```
+然后，就可以将`scapy-2.4.0`目录里的所有文件，用来初始化`gerrit`仓库了
+
 ## 应用旧的patch
 进入源码目录，并将旧的`patch`应用到源码上
 ```bash
@@ -51,22 +66,22 @@ devops@devops-PC:~/cve/temp/scapy-2.4.0$ dpkg-source --before-build ./
 ## 使用qulit生成新的patch
 1. 生成新的`patch`文件
 补丁命名规范，参考`CVE`平台上的漏洞修复流程介绍。
->CVE安全漏洞补丁统一命名格式： deepin-<CVE ID>.patch,
->如 CVE ID 为 CVE-2020-0452 则 patch 文件名应该是 deepin-CVE-2020-0452.patch
->如果一份补丁解决两个cve漏洞，则补丁名字为deepin-<CVE ID>-<CVE ID>.patch。
->对于 uos 的安全漏洞命名为 <UT-年份-编号>，补丁名应为 deepin-UT-年份-编号.patch
+>CVE安全漏洞补丁统一命名格式： uniontech-<CVE ID>.patch,
+>如 CVE ID 为 CVE-2020-0452 则 patch 文件名应该是 uniontech-CVE-2020-0452.patch
+>如果一份补丁解决两个cve漏洞，则补丁名字为uniontech-<CVE ID>-<CVE ID>.patch。
+>对于 uos 的安全漏洞命名为 <UT-年份-编号>，补丁名应为 uniontech-UT-年份-编号.patch
 
 我本次创建如下：
 ```bash
-devops@devops-PC:~/cve/temp/scapy-2.4.0$ quilt new deepin-CVE-2019-1010142.patch
-Patch debian/patches/Remove-useless-_RADIUSAttrPacketListField-class.patch is now on top
+devops@devops-PC:~/cve/temp/scapy-2.4.0$ quilt new uniontech-CVE-2019-1010142.patch
+Patch debian/patches/uniontech-CVE-2019-1010142.patch is now on top
 ```
 2. 添加需要修改的文件
 ```bash
 devops@devops-PC:~/cve/temp/scapy-2.4.0$ quilt add scapy/layers/eap.py scapy/layers/radius.py test/regression.uts 
-File scapy/layers/eap.py added to patch debian/patches/Remove-useless-_RADIUSAttrPacketListField-class.patch
-File scapy/layers/radius.py added to patch debian/patches/Remove-useless-_RADIUSAttrPacketListField-class.patch
-File test/regression.uts added to patch debian/patches/Remove-useless-_RADIUSAttrPacketListField-class.patch
+File scapy/layers/eap.py added to patch debian/patches/uniontech-CVE-2019-1010142.patch
+File scapy/layers/radius.py added to patch debian/patches/uniontech-CVE-2019-1010142.patch
+File test/regression.uts added to patch debian/patches/uniontech-CVE-2019-1010142.patch
 ```
 3. 手动修改相应的文件
 修改完成后，可以使用`quilt file`列出添加的文件；`quilt diff`查看改变的地方
@@ -92,19 +107,19 @@ Index: scapy-2.4.0/scapy/layers/radius.py
 4. 自动生成补丁文件
 ```bash
 devops@devops-PC:~/cve/temp/scapy-2.4.0$ quilt refresh 
-Refreshed patch debian/patches/Remove-useless-_RADIUSAttrPacketListField-class.patch
+Refreshed patch debian/patches/uniontech-CVE-2019-1010142.patch
 ```
 执行以上命令后，已经将本次的所有变更，自动生成了`patch`文件，并存放于`debian/patches`目录中
 ```bash
 devops@devops-PC:~/cve/temp/scapy-2.4.0$ ls debian/patches/
-paths.patch  Remove-useless-_RADIUSAttrPacketListField-class.patch  series  setup.py.patch
+paths.patch  uniontech-CVE-2019-1010142.patch  series  setup.py.patch
 ```
 同时，自动在`series`文件中追加了当前的`patch`条目。
 ```bash
 devops@devops-PC:~/cve/temp/scapy-2.4.0$ cat debian/patches/series 
 setup.py.patch
 paths.patch
-Remove-useless-_RADIUSAttrPacketListField-class.patch
+uniontech-CVE-2019-1010142.patch
 ```
 5. 添加补丁信息头
 补丁要按照模板填写,需要在补丁上面添加 `patch `来源、作者、上游描述、补丁链接等信息。
