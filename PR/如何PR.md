@@ -65,35 +65,17 @@ Merge made by the 'recursive' strategy.
 #### 3. 创建分支-解决问题
 git鼓励创建分支来解决问题，不管是小项目还是团队协作的项目，使用仓库时，都最好新建立一个分支。分支名称应该简短，能够反应我们所做的工作。
 使用`git checkout -b`命令来创建一个分支, 并切换
+
 ```bash
 git checkout -b fix-bug
 ```
 接下来，你就可以在当前分支为所欲为了
 完毕后，记得`git commit -m 'xxxxxx'`
 
-- 确认修改后，将新的分支合并到master分支
-```bash
-% git checkout master 
-切换到分支 'master'
-您的分支与上游分支 'origin/master' 一致。
-
-% git merge fix-bug 
-Merge made by the 'recursive' strategy.
- test | 1 +
- 1 file changed, 1 insertion(+)
- create mode 100644 test
-```
-合并完成后，使用`git log `可看到合并记录
-- 抛弃fix-bug分支
-想要的事情都已经干完了，可以删除该分支了
-```bash
-% git branch -d fix-bug 
-已删除分支 fix-bug（曾为 b4da1bd9）。
-```
 #### 4. 提交代码到自己账户的远程仓库
-注意，因为指定了上游的远程仓库，所以不能使用默认的`git push`命令，需要指定仓库及推送的分支
+注意，因为指定了上游的远程仓库，所以不能使用默认的`git push`命令，需要指定仓库及推送的新分支
 ```bash
-% git push origin master 
+% git push origin "new_branch" 
 枚举对象: 7, 完成.
 对象计数中: 100% (7/7), 完成.
 使用 16 个线程进行压缩
