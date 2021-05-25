@@ -24,3 +24,4 @@
 - [使用 quilt 打 patch](./使用 quilt 打 patch.md)
 - [Git hook钩子使用](./Git hook钩子使用.md)
 - [echo 打印带有颜色的字](./echo打印带有颜色的字.md)
+- [lightdm 跳过登陆](./lightdm跳过登陆/lightdm 自动登陆.md)
