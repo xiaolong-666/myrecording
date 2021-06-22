@@ -5,6 +5,7 @@ plymouth使用的主题都存放于`/usr/share/plymouth/themes`目录下
 ## 创建对应目录
 在`/usr/share/plymouth/themes`目录下，创建一个目录，可以参考该目录下的其他主题，最简单的方式就是拷贝一个现成的主题，重命名为自己的主题，然后修改相应内容。
 我本次拷贝了`uos-ssd-logo`主题，修改为`xiaolong-test`，然后将目录里面的三个脚本依次修改名称为`xiaolong-test.grub`、`xiaolong-test.plymouth`、`xiaolong-test.script`
+
 ```bash
 devops@devops-PC:/usr/share/plymouth/themes/xiaolong-test$ ls
 boot.png  box.png  bullet.png  entry.png  lock.png  logo.png  xiaolong-test.grub  xiaolong-test.plymouth  xiaolong-test.script
@@ -64,6 +65,32 @@ box.png     lock.png   miku10.png  miku13.png  miku16.png  miku19.png  miku21.pn
 bullet.png  logo.png   miku11.png  miku14.png  miku17.png  miku1.png   miku2.png   miku5.png  miku8.png  xiaolong-test.plymouth  
 ```
 
+### 自定义开机和关机logo不一致
+在最近某个项目中，客户有这方面需求，要求开机展示一张带有初始化的图片，关机时展示另一张结束服务的图片。目前系统中都是默认展示的一张图片，通过设置透明度进行显隐操作。
+为了达到目的，需要自己进行scripts脚本的编写。[参考链接](https://www.freedesktop.org/wiki/Software/Plymouth/Scripts/)
+实现的核心部分在于，判断是开机、关机和重启等命令，展示不同的图片，查阅上述资料可知：`Plymouth.GetMode()`函数会返回一个字符串，取值为：`boot`、`shutdown`、`suspend`、`resume` 。这就对应着开关机状态。
+```bash
+if (Plymouth.GetMode() == "boot")	# 如果是开机引导
+{
+	logo.image = Image("logo.png");
+	logo.sprite = Sprite(logo.image);
+	logo.x = Window.GetX() + Window.GetWidth()/2 - logo.image.GetWidth()/2;
+	logo.y = Window.GetY() + Window.GetHeight()/2 - logo.image.GetHeight()/2;
+	logo.sprite.SetPosition(logo.x,logo.y,10000);
+	Plymouth.SetRefreshFunction(boot_callback);	# 回调函数，在里面设置logo.sprite的透明度
+}else
+{
+	...			# 其它模式展示的图片,跟上面类似
+}
+```
+
+**其中核心部分是，script脚本中的图片对象，Image()和Sprite()**
+```bash
+logo.image = Image("logo.png");
+logo.sprite = Sprite(logo.image);
+```
+请注意，上述对象的生命周期一旦存在就会被渲染，如果有多个对象，请放在对应模式的函数中，不然就会进行叠加渲染。
+
 
 ## 查看主题，并设置默认主题
 使用`plymouth-set-default-theme`可以修改当前使用的主题，`-h`参数有详细介绍
@@ -104,3 +131,8 @@ live-boot: core filesystems devices utils udev blockdev dns.
 ```
 
 自此，开机后就可以看到图片已经换成自己的了！
+
+
+
+## 参考链接
+[plymouth scripts](https://www.freedesktop.org/wiki/Software/Plymouth/Scripts/)
