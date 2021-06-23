@@ -93,7 +93,7 @@ logo.sprite = Sprite(logo.image);
 请注意，上述对象的生命周期一旦存在就会被渲染，如果有多个对象，请放在对应模式的函数中，不然就会进行叠加渲染。
 
 同时还有的项目，需要logo铺满屏幕，即全屏展示。
-对于上面的`Image()`对象，调用`Scale()`函数，缩放到当前屏幕的大小即可，在生成`sprite`即可
+对于上面的`Image()`对象，调用`Scale()`函数，缩放到当前屏幕的大小即可，在生成`sprite`即可。[参考链接](https://joekuan.wordpress.com/2010/08/05/plymouth-create-your-own-splash-screen-with-scrolling-boot-messages/)
 ```bash
 logo.image = Image("logo.png");
 resize_image = logo.image.Scale(Window.GetWidth(),Window.GetHeight());
