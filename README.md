@@ -29,3 +29,4 @@
 ## 6月
 - [plymouth 自定义主题](./plymouth 自定义主题.md)
 - [拉取 git 仓库中的指定目录](./拉取git仓库中的指定目录.md)
+- [snap调研](./snap调研/snap技术调研报告.md)
