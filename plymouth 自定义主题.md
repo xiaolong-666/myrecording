@@ -69,6 +69,7 @@ bullet.png  logo.png   miku11.png  miku14.png  miku17.png  miku1.png   miku2.png
 在最近某个项目中，客户有这方面需求，要求开机展示一张带有初始化的图片，关机时展示另一张结束服务的图片。目前系统中都是默认展示的一张图片，通过设置透明度进行显隐操作。
 为了达到目的，需要自己进行scripts脚本的编写。[参考链接](https://www.freedesktop.org/wiki/Software/Plymouth/Scripts/)
 实现的核心部分在于，判断是开机、关机和重启等命令，展示不同的图片，查阅上述资料可知：`Plymouth.GetMode()`函数会返回一个字符串，取值为：`boot`、`shutdown`、`suspend`、`resume` 。这就对应着开关机状态。
+
 ```bash
 if (Plymouth.GetMode() == "boot")	# 如果是开机引导
 {
@@ -90,6 +91,17 @@ logo.image = Image("logo.png");
 logo.sprite = Sprite(logo.image);
 ```
 请注意，上述对象的生命周期一旦存在就会被渲染，如果有多个对象，请放在对应模式的函数中，不然就会进行叠加渲染。
+
+同时还有的项目，需要logo铺满屏幕，即全屏展示。
+对于上面的`Image()`对象，调用`Scale()`函数，缩放到当前屏幕的大小即可，在生成`sprite`即可
+```bash
+logo.image = Image("logo.png");
+resize_image = logo.image.Scale(Window.GetWidth(),Window.GetHeight());
+logo.sprite = Sprite(resize_image);
+logo.x = Window.GetX();
+logo.y = Window.GetY();
+logo.sprite.SetPosition(logo.x,logo.y,10000);
+```
 
 
 ## 查看主题，并设置默认主题
