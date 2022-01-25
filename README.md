@@ -77,3 +77,5 @@
 - [清除git所有历史记录](./git/清除git所有历史记录.md)
 - [Linux 休眠](./linux命令/Linux 休眠.md)
 - [Fcitx 虚拟键盘的关闭开启](./linux命令/Fcitx 虚拟键盘的关闭开启.md)
+
+- [jenkins 选择分支构建](./Jenkins/Jenkins选择分支构建.md)
