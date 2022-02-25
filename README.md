@@ -79,3 +79,9 @@
 - [Fcitx 虚拟键盘的关闭开启](./linux命令/Fcitx 虚拟键盘的关闭开启.md)
 
 - [jenkins 选择分支构建](./Jenkins/Jenkins选择分支构建.md)
+
+### 2月
+- [strace 命令](./linux命令/strace命令.md)
+- [lsof 命令](./linux命令/lsof命令.md)
+- [initramfs介绍](./linux命令/initramfs介绍.md)
+- [plymouth一探](./linux命令/Plymouth一探.md)
