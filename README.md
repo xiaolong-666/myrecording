@@ -77,7 +77,6 @@
 - [清除git所有历史记录](./git/清除git所有历史记录.md)
 - [Linux 休眠](./linux命令/Linux 休眠.md)
 - [Fcitx 虚拟键盘的关闭开启](./linux命令/Fcitx 虚拟键盘的关闭开启.md)
-
 - [jenkins 选择分支构建](./Jenkins/Jenkins选择分支构建.md)
 
 ### 2月
@@ -85,3 +84,6 @@
 - [lsof 命令](./linux命令/lsof命令.md)
 - [initramfs介绍](./linux命令/initramfs介绍.md)
 - [plymouth一探](./linux命令/Plymouth一探.md)
+
+### 3月
+- [禁用鼠标右键](./linux命令/禁用鼠标右键.md)
