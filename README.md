@@ -87,3 +87,6 @@
 
 ### 3月
 - [禁用鼠标右键](./linux命令/禁用鼠标右键.md)
+- [live 知识](./linux命令/live知识.md)
+- [pytest 使用](./python/Pytest使用.md)
+- [gitlab触发jenkins构建](./Jenkins/gitlab触发jenkins构建.md)
