@@ -90,3 +90,17 @@
 - [live 知识](./linux命令/live知识.md)
 - [pytest 使用](./python/Pytest使用.md)
 - [gitlab触发jenkins构建](./Jenkins/gitlab触发jenkins构建.md)
+
+### 4月
+
+- [linux 网络接口的禁用](./linux命令/linux 网络接口的禁用.md)
+- [用户家目录skel模板介绍](./linux命令/用户家目录skel模板介绍.md)
+- [pytest 测试 getpass](./python/pytest 测试 getpass.md)
+- [python 中truncate()踩坑](./python/python 中truncate()踩坑.md)
+
+## 5月
+
+- [cmake install 权限问题](./C++/cmake install 权限问题.md)
+
+  
+
