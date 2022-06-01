@@ -102,4 +102,5 @@
 
 - [cmake install 权限问题](./C++/cmake install 权限问题.md)
 - [git reflog查看回退](./git/撤销 git commit --amend.md)
-
+- [Qt 以root用户运行调试](./C++/Qt以root用户运行调试.md)
+- [runuser命令使用](./linux命令/runuser命令使用.md)
