@@ -79,7 +79,7 @@ inp->end
 
 ## 二、时序图
 
-##### 1. 标准时序图
+#### 1. 标准时序图
 
 基本语法：
 
@@ -136,6 +136,83 @@ participant 对象C
 Note over 对象C: 我自己说了算
 ```
 
+## 三、类图
+使用 `mermaid` 类型，第一行跟上 `classDiagram` 关键字，表明是绘制类图。
+### 定义一个类
+显式的定义一个类可以使用引导词 `class` ，如定义一个名为 Animal的类： `class Base`
+
+```mermaid
+classDiagram
+class Base
+```
+
+### 定义类成员
+
+ mermaid 根据括号 （） 是否存在来区分属性和功能/方法. 具有 （） 的将被视为函数/方法，而其他则被视为属性。
+```mermaid
+classDiagram
+class Base{
+    + name
+    + id
+    + get_name()
+    + set_name(str)
+}
+```
+
+### 定义类关系
+
+面向对象编程中的类间关系有继承、组合、聚合等：
+
+- <|--				继承
+- *--                  组合
+- o--                  聚合
+```mermaid
+classDiagram
+classA <|-- classB
+classC *-- classD
+classE o-- classF
+
+```
+
+### 类间关系上的标签
+
+可以在关系定义后添加文本表示注释：
+```mermaid
+classDiagram
+classA <|-- classB : 继承
+classC *-- classD : 组合
+classE o-- classF : 聚合
+
+```
+
+### 类注释
+
+类的类型有以下四种，以 `<<` 和 `>>` 括起来：
+
+- <<interface>> 接口类
+- <<abstract>> 抽象类
+- <<service>> 服务类
+- <<enumeration>> 枚举类
+```mermaid
+classDiagram
+class Base{
+    <<abstract>>
+    + run()
+}
+class interface{
+    <<interface>>
+    + common(args)
+}
+class myservice{
+    <<service>>
+    + common(args)
+}
+
+```
 ## 参考链接
 
 https://www.jianshu.com/p/6dbcc3aff98b
+
+[绘制类图](https://blog.csdn.net/horsee/article/details/113883818)
+
+[官方介绍mermaid](https://mermaid-js.github.io/mermaid/#/)
