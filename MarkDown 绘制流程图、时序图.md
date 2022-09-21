@@ -216,3 +216,5 @@ https://www.jianshu.com/p/6dbcc3aff98b
 [绘制类图](https://blog.csdn.net/horsee/article/details/113883818)
 
 [官方介绍mermaid](https://mermaid-js.github.io/mermaid/#/)
+
+[语法介绍](https://segmentfault.com/a/1190000041781220)
