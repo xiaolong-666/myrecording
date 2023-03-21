@@ -19,12 +19,17 @@ formatters:
     format: "%(asctime)s - %(message)s"
   simple:
     format: "%(asctime)s - %(filename)s-%(lineno)d - %(levelname)s : %(message)s"
+filters:
+  onlineFilter:
+     # 继承filter 自己实现过滤要求
+    (): oem.onlineFilter
 handlers:
   console:
     class: logging.StreamHandler
     formatter: brief
     level: WARNING
     stream: ext://sys.stdout
+    filters: ["onlineFilter"]
   rotateFile:
     class: logging.handlers.RotatingFileHandler
     level: DEBUG
@@ -34,10 +39,27 @@ handlers:
     maxBytes: 10485760 # 10MB
     backupCount: 3
     encoding: utf8
+  mailhandler:
+    # 需要修改默认的SMTPHandler.emit 中： mtplib.SMTP -->smtplib.SMTP_SSL
+    class: logging.handlers.SMTPHandler
+    level: WARNING
+    formatter: simple
+    mailhost: !!python/tuple
+      - 'smtp.exmail.qq.com'
+      - 465
+    fromaddr: "xxxx@xxxx.com"
+    toaddrs:
+      - "xxxx@xxx.com"
+      - "xxxx@xxxx.com"
+    subject: "安全扫描结果"
+    credentials: !!python/tuple
+      - 'xxxx@xxxx.com'
+      - '******'
+
 loggers:
   oemscan:
     level: DEBUG
-    handlers: [console,rotateFile]
+    handlers: [console,rotateFile,mailhandler]
 ```
 
 加载配置使用方式：
@@ -46,8 +68,16 @@ loggers:
 import logging.config
 import yaml
 
+class onlineFilter(logging.Filter):
+    def filter(self, record) -> bool:
+        # 过滤异常堆栈信息
+        if record.exc_info:
+            if "Traceback (most recent call last)" in record.exc_text:
+                return False
+        return True
+
 with open("./logging.yaml", 'r') as f:
-    config = yaml.safe_load(f.read())
+    config = yaml.unsafe_load(f.read())
     logging.config.dictConfig(config)
 
 logger = logging.getLogger("oemscan")
@@ -61,3 +91,7 @@ logger = logging.getLogger("oemscan")
 ## 参考链接
 
 https://zhuanlan.zhihu.com/p/454463040
+
+https://madmalls.com/blog/post/smtphandler-send-error-email/
+
+https://stackoverflow.com/questions/61456543/logging-in-python-with-yaml-and-filter
